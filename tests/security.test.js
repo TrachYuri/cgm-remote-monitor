@@ -7,6 +7,7 @@ var language = require('../lib/language')();
 describe('API_SECRET', function ( ) {
   var api;
   var scope = this;
+  this.timeout(5000);
 
   function setup_app (env, fn) {
     api = require('../lib/api/');
@@ -18,7 +19,7 @@ describe('API_SECRET', function ( ) {
     });
   }
 
-  it('should work fail set unauthorized', function (done) {
+  it('should fail when unauthorized', function (done) {
     var known = 'b723e97aa97846eb92d5264f084b2823f57c4aa1';
     delete process.env.API_SECRET;
     process.env.API_SECRET = 'this is my long pass phrase';
@@ -64,7 +65,7 @@ describe('API_SECRET', function ( ) {
     process.env.API_SECRET = 'tooshort';
     var env = require('../env')( );
     should.not.exist(env.api_secret);
-    env.err.desc.should.startWith('API_SECRET should be at least');
+    env.err[0].desc.should.startWith('API_SECRET should be at least');
   });
 
   function ping_status (app, fn) {

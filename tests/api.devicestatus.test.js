@@ -26,10 +26,6 @@ describe('Devicestatus API', function ( ) {
     });
   });
 
-  after(function () {
-    // delete process.env.API_SECRET;
-  });
-
   it('post a devicestatus, query, delete, verify gone', function (done) {
     // insert a devicestatus - needs to be unique from example data
     console.log('Inserting devicestatus entry');
@@ -60,6 +56,7 @@ describe('Devicestatus API', function ( ) {
             .set('api-secret', self.env.api_secret || '')
             .expect(200)
             .expect(function (response) {
+              console.log(JSON.stringify(response.body[0]));
               response.body[0].xdripjs.state.should.equal(6);
               response.body[0].utcOffset.should.equal(0);
             })
